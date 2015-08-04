@@ -1,0 +1,19 @@
+{
+  "name": "SilexQA",
+  "version": "1.0.0",
+  "description": "Functional tests of Silex",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "mkdir -p dist && node_modules/.bin/babel src/*.js -o dist/index.js --modules common",
+    "watch": "mkdir -p dist && node_modules/.bin/babel src/*.js -w -s -o dist/index.js --modules common",
+    "start": "PATH=$PATH:\"$PWD\"/node_modules/.bin/phantomjs node app/index.js",
+    "postinstall": "npm run build"
+  },
+  "author": "lexoyo",
+  "license": "GPL v3",
+  "dependencies": {
+    "babel": "5.8.3",
+    "phantomjs2": "2.0.0",
+    "selenium-webdriver": "2.45.1"
+  }
+}
