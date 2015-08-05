@@ -58,7 +58,7 @@ class Main {
                 // wait a little longer, so that the fade-in animation of the blank site is over
                 setTimeout(function () {
                   done();
-                }, 1000);
+                }, 100);
             });
           });
       });

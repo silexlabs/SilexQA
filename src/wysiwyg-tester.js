@@ -16,15 +16,24 @@ export default class WysiwygTester {
         .click('div=Insert')
         .click('div=Text box')
         .frame('silex-stage-iframe')
-        .waitForVisible('div=New text box')
         .isVisible('div=New text box')
         .then((isVisible) => assert(isVisible))
-        .then(done);
+        .then(() => done())
+        .catch(done)
+        .frame();
     });
   }
   describeTestContainer() {
     it('insert a container', (done) => {
-      done();
+      this.getClient()
+        .click('div=Insert')
+        .click('div=Text box')
+        .frame('silex-stage-iframe')
+        .isVisible('.container-element')
+        .then((isVisible) => assert(isVisible))
+        .then(() => done())
+        .catch(done)
+        .frame();
     });
   }
 }
