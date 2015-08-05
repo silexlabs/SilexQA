@@ -29,7 +29,7 @@ selenium.install({
     // wait for Silex UI to be displayed
     .waitForVisible('.silex-menu', 10000, false)
     // wait for the blanck website to be loading
-    .waitForVisible('.silex-stage.loading-website', 10000, false)
+    .waitForVisible('.silex-stage.loading-website', 1000, false)
     // wait for it to be loaded
     .waitForVisible('.silex-stage.loading-website', 10000, true)
     .then((done) => {
