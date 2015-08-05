@@ -28,25 +28,31 @@ selenium.install({
   client.init().url(SILEX_URL)
     // wait for Silex UI to be displayed
     .waitForVisible('.silex-menu', 10000, false)
-    // wait for the blanck website to be loading
-    .waitForVisible('.silex-stage.loading-website', 1000, false)
-    // wait for it to be loaded
-    .waitForVisible('.silex-stage.loading-website', 10000, true)
-    .then((done) => {
-      console.log('start test');
-      let promise = client;
+    .isVisible('div=New text box')
+    .then((isVisible) => {
+      // wait for the blanck website to be loading
+      if (!isVisible) {
+        client = client.waitForVisible('.silex-stage.loading-website', 1000, false);
+      }
+      // wait for it to be loaded
+      client
+        .waitForVisible('.silex-stage.loading-website', 10000, true)
+        .then((done) => {
+          console.log('start test');
+          let promise = client;
 
-      // test the wysiwyg
-      var wysiwygTester = new WysiwygTester();
-      promise = wysiwygTester.test1(promise);
-      promise = wysiwygTester.test2(promise);
+          // test the wysiwyg
+          var wysiwygTester = new WysiwygTester();
+          promise = wysiwygTester.test1(promise);
+          promise = wysiwygTester.test2(promise);
 
-      promise.saveScreenshot(__dirname + '/../test1.png')
-      // stop webdriver and selenium
-      .end()
-        .then(() => {
-          console.log('end tests');
-          child.kill();
-        });
-    })
+          promise.saveScreenshot(__dirname + '/../test1.png')
+          // stop webdriver and selenium
+          .end()
+            .then(() => {
+              console.log('end tests');
+              child.kill();
+            });
+      });
+    });
 }));

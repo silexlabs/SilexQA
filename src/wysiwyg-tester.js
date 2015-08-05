@@ -9,7 +9,7 @@ export default class WysiwygTester {
       .click('div=Insert')
       .click('div=Text box')
       .frame('silex-stage-iframe')
-      .waitForVisible('div=New text box', 1000)
+      .waitForVisible('div=New text box', 2000)
       .isVisible('div=New text box')
       .then((isVisible) => assert(isVisible));
   }
