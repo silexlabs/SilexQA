@@ -1,13 +1,14 @@
+
 export default class WysiwygTester {
-  constructor(driver, helper) {
-    this.driver = driver;
-    this.helper = helper;
+  constructor() {
   }
-  test() {
-    /*
-      this.driver.findElement(By.id('champTexteIdentifiant')).sendKeys(this.userId);
-      this.driver.findElement(By.id('boutonContinuer')).click();
-      this.driver.findElement(By.css('.form-clavier a')).click().then(function() {
-    */
+  test1(client) {
+    return client
+      // add a text element
+      .click('div=Insert')
+      .click('div=Text box');
+  }
+  test2(client) {
+    return client;
   }
 }

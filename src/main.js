@@ -1,8 +1,6 @@
-// libs
-var webdriver = require('selenium-webdriver');
-var builder = new webdriver.Builder();
-//var driver = builder.forBrowser('chrome').build();
-var driver = builder.forBrowser('phantomjs').build();
+import WysiwygTester from './wysiwyg-tester';
+import selenium from 'selenium-standalone';
+import webdriverio from 'webdriverio';
 
 // env vars
 var SILEX_URL = process.env.SILEX_URL;
@@ -13,12 +11,42 @@ if(!SILEX_URL) {
 
 console.log('Start browsing Silex at URL ', SILEX_URL);
 
-// helper
-import Helper from 'helper';
-var helper = new Helper(driver, SILEX_URL);
-helper.loadSilex();
+// start selenium
+selenium.install({
+  chrome: {
+    version: '2.15',
+    arch: process.arch,
+    baseURL: 'http://chromedriver.storage.googleapis.com'
+  }
+}, () => selenium.start((err, child) => {
+  var options = {
+      desiredCapabilities: {
+          browserName: 'chrome'
+      }
+  };
+  let client = webdriverio.remote(options);
+  client.init().url(SILEX_URL)
+    // wait for Silex UI to be displayed
+    .waitForVisible('.silex-menu', 10000, false)
+    // wait for the blanck website to be loading
+    .waitForVisible('.silex-stage.loading-website', 10000, false)
+    // wait for it to be loaded
+    .waitForVisible('.silex-stage.loading-website', 10000, true)
+    .then((done) => {
+      console.log('start test');
+      let promise = client;
 
-// test the wysiwyg
-import WysiwygTester from './wysiwyg-tester.js';
-var wysiwygTester = new WysiwygTester(driver, helper);
-wysiwygTester.test();
+      // test the wysiwyg
+      var wysiwygTester = new WysiwygTester();
+      promise = wysiwygTester.test1(promise);
+      promise = wysiwygTester.test2(promise);
+
+      promise.saveScreenshot(__dirname + '/../test1.png')
+      // stop webdriver and selenium
+      .end()
+        .then(() => {
+          console.log('end tests');
+          child.kill();
+        });
+    })
+}));

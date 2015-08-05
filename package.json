@@ -2,11 +2,11 @@
   "name": "SilexQA",
   "version": "1.0.0",
   "description": "Functional tests of Silex",
-  "main": "dist/index.js",
+  "main": "dist/main.js",
   "scripts": {
-    "build": "mkdir -p dist && node_modules/.bin/babel src/*.js -o dist/index.js --modules common",
-    "watch": "mkdir -p dist && node_modules/.bin/babel src/*.js -w -s -o dist/index.js --modules common",
-    "start": "PATH=$PATH:\"$PWD\"/node_modules/.bin/phantomjs node app/index.js",
+    "build": "mkdir -p dist && node_modules/.bin/babel src/ -d dist/ --modules common",
+    "watch": "mkdir -p dist && node_modules/.bin/babel src/ -w -s -d dist/ --modules common",
+    "start": "PATH=$PATH:\"$PWD\"/node_modules/.bin/phantomjs node dist/main.js",
     "postinstall": "npm run build"
   },
   "author": "lexoyo",
@@ -14,6 +14,8 @@
   "dependencies": {
     "babel": "5.8.3",
     "phantomjs2": "2.0.0",
-    "selenium-webdriver": "2.45.1"
+    "selenium-standalone": "^4.5.3",
+    "selenium-webdriver": "2.45.1",
+    "webdriverio": "^3.1.0"
   }
 }
